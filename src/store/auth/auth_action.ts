@@ -8,6 +8,7 @@ import {
   IVerifyEmailRegister,
 } from '../../types/auth';
 import client from '../../clients/https';
+import {toastMessage} from '../../utils/toast';
 
 export const login = createAsyncThunk<IResponse<IUser>, ILogin>(
   'auth/login',
@@ -18,6 +19,7 @@ export const login = createAsyncThunk<IResponse<IUser>, ILogin>(
       console.log({data});
       return data;
     } catch (error: any) {
+      toastMessage.error(error.message);
       return rejectWithValue(error);
     }
   },
@@ -30,6 +32,7 @@ export const register = createAsyncThunk<IResponse<IUser>, IRegister>(
       const data = await client.register(payload);
       return data;
     } catch (error: any) {
+      toastMessage.error(error.message);
       return rejectWithValue(error);
     }
   },
@@ -43,6 +46,7 @@ export const updatePassword = createAsyncThunk<
     const data = await client.updatePassword(payload);
     return data;
   } catch (error: any) {
+    toastMessage.error(error.message);
     return rejectWithValue(error);
   }
 });
@@ -55,6 +59,7 @@ export const verifyEmailForgotPassword = createAsyncThunk<
     const data = await client.verifyEmailForgotPassword(payload);
     return data;
   } catch (error: any) {
+    toastMessage.error(error.message);
     return rejectWithValue(error);
   }
 });
@@ -68,6 +73,7 @@ export const verifyEmailRegister = createAsyncThunk<
 
     return data;
   } catch (error: any) {
+    toastMessage.error(error.message);
     return rejectWithValue(error);
   }
 });

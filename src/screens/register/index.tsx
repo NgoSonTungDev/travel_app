@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useAppDispatch} from '../../store';
 import {login, verifyEmailRegister} from '../../store/auth/auth_action';
 import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 const validationInput = yup.object().shape({
   userName: yup
@@ -53,14 +54,11 @@ const RegisterScreen = () => {
   });
 
   const onSubmit = (data: IFormState) => {
-    axios
-      .post('http://localhost:4000/api/user/login', {
-        email: 'ngosontung0309@gmail.com',
-        password: 'ngosontung0309@gmail.com',
-      })
-      .then(data => {
-        console.log(data);
-      });
+    dispatch(verifyEmailRegister({email: data.email, userName: data.userName}));
+    // Toast.show({
+    //   type: 'info',
+    //   text1: 'This is an info message',
+    // });
   };
 
   return (
