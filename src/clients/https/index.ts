@@ -1,6 +1,7 @@
 import ClientBase from './base';
-import ClientAuth, {ClientAuthMix} from './auth';
+
 import mix from '../../utils/mix';
+import ClientAuth, {ClientAuthMix} from './auth';
 
 interface Client extends ClientBase, ClientAuthMix {}
 

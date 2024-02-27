@@ -16,6 +16,8 @@ export interface ClientAuthMix {
   verifyEmailRegister: (
     data: IVerifyEmailRegister,
   ) => Promise<IResponseMessage>;
+
+  getCountry: () => Promise<any>;
 }
 
 const ClientAuth = <TBase extends Constructor<ClientBase>>(superclass: TBase) =>
@@ -64,6 +66,11 @@ const ClientAuth = <TBase extends Constructor<ClientBase>>(superclass: TBase) =>
           data: data,
         },
       );
+    };
+    getCountry = async () => {
+      return this.doFetch<any>(`${this.getBaseRoute()}/Country`, {
+        method: 'get',
+      });
     };
   };
 

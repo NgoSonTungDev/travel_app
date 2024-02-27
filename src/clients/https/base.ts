@@ -16,17 +16,8 @@ export default class ClientBase {
   constructor() {}
 
   getBaseRoute = () => {
-    return `http://localhost:4000${this.urlVersion}`;
+    return `http://192.168.1.102:4000/api`;
   };
-
-  // setToken = (token: string) => {
-  //   if (token) {
-  //     this.token = token;
-  //   } else {
-  //     this.token = '';
-  //     // delete this.requestHeaders.Authorization;
-  //   }
-  // };
 
   getOptions = (options: Options) => {
     const newOptions: Options = {...options};

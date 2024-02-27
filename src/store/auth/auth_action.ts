@@ -14,12 +14,10 @@ export const login = createAsyncThunk<IResponse<IUser>, ILogin>(
   'auth/login',
   async (payload, {rejectWithValue}) => {
     try {
-      console.log('123456');
       const data = await client.login(payload);
-      console.log({data});
       return data;
     } catch (error: any) {
-      toastMessage.error(error.message);
+      toastMessage.error(error?.message || 'Lỗi hệ thống !');
       return rejectWithValue(error);
     }
   },
@@ -32,7 +30,7 @@ export const register = createAsyncThunk<IResponse<IUser>, IRegister>(
       const data = await client.register(payload);
       return data;
     } catch (error: any) {
-      toastMessage.error(error.message);
+      toastMessage.error(error?.message || 'Lỗi hệ thống !');
       return rejectWithValue(error);
     }
   },
@@ -46,7 +44,7 @@ export const updatePassword = createAsyncThunk<
     const data = await client.updatePassword(payload);
     return data;
   } catch (error: any) {
-    toastMessage.error(error.message);
+    toastMessage.error(error?.message || 'Lỗi hệ thống !');
     return rejectWithValue(error);
   }
 });
@@ -59,7 +57,7 @@ export const verifyEmailForgotPassword = createAsyncThunk<
     const data = await client.verifyEmailForgotPassword(payload);
     return data;
   } catch (error: any) {
-    toastMessage.error(error.message);
+    toastMessage.error(error?.message || 'Lỗi hệ thống !');
     return rejectWithValue(error);
   }
 });
@@ -73,7 +71,7 @@ export const verifyEmailRegister = createAsyncThunk<
 
     return data;
   } catch (error: any) {
-    toastMessage.error(error.message);
+    toastMessage.error(error?.message || 'Lỗi hệ thống !');
     return rejectWithValue(error);
   }
 });

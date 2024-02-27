@@ -8,7 +8,7 @@ export const toastMessage = {
     }),
   error: (message: string) =>
     Toast.show({
-      type: 'success',
+      type: 'error',
       text1: message,
     }),
   info: (message: string) =>

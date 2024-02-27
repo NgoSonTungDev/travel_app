@@ -1,4 +1,6 @@
 import {yupResolver} from '@hookform/resolvers/yup';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import {Button, ImageBackground, StyleSheet, View} from 'react-native';
@@ -8,11 +10,11 @@ import {Text} from 'react-native-paper';
 import * as yup from 'yup';
 import {FormTextInput} from '../../components/hook_form';
 import {colors} from '../../constants/colors';
+import {useAppDispatch} from '../../store';
+import {login} from '../../store/auth/auth_action';
+import {RootParamList} from '../../types/navigation';
 import {images} from '../../utils/constants';
 import {DEVICE_HEIGHT} from '../../utils/dimension';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootParamList} from '../../types/navigation';
 
 interface IFormState {
   email: string;
@@ -32,6 +34,7 @@ const validationInput = yup.object().shape({
 });
 
 const LoginScreen = () => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<StackNavigationProp<RootParamList>>();
 
   const navigationRegisterScreen = () => {
@@ -93,7 +96,25 @@ const LoginScreen = () => {
                 Sign up
               </Text>
             </Text>
-            <Button onPress={() => {}} title="Login" color={colors.primary} />
+            <Button
+              onPress={() => {
+                dispatch(
+                  login({
+                    email: 'sontung22@gmail.com',
+                    password: 'sontung22@gmail.com',
+                  }),
+                )
+                  .unwrap()
+                  .then(data => {
+                    console.log({data});
+                  })
+                  .catch(err => {
+                    console.log({err});
+                  });
+              }}
+              title="Login"
+              color={colors.primary}
+            />
           </View>
         </View>
       </ImageBackground>
