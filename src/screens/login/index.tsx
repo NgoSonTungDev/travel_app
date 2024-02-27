@@ -38,6 +38,10 @@ const LoginScreen = () => {
     navigation.navigate('Register');
   };
 
+  const navigationForgotPasswordScreen = () => {
+    navigation.navigate('ForgotPassword');
+  };
+
   const {control} = useForm<IFormState>({
     defaultValues: {
       email: '',
@@ -60,7 +64,7 @@ const LoginScreen = () => {
             <Text style={style.textTitle}>Welcome</Text>
             <Text style={style.textTitle}>Back</Text>
             <Text style={style.textContent}>Sign in to continue</Text>
-            <View style={{marginTop: 25}}>
+            <View style={{marginTop: 15}}>
               <FormTextInput control={control} label="Email" name="email" />
               <FormTextInput
                 control={control}
@@ -69,12 +73,13 @@ const LoginScreen = () => {
                 type="password"
               />
             </View>
-            <TouchableOpacity style={{marginTop: 10}}>
+            <TouchableOpacity style={{marginTop: 5}}>
               <Text
                 style={{
-                  fontSize: 14,
-                  textAlign: 'center',
-                }}>
+                  fontSize: 12,
+                  textAlign: 'right',
+                }}
+                onPress={navigationForgotPasswordScreen}>
                 Forgot Password?
               </Text>
             </TouchableOpacity>
@@ -95,6 +100,7 @@ const LoginScreen = () => {
     </KeyboardAwareScrollView>
   );
 };
+
 const style = StyleSheet.create({
   root: {
     flex: 1,
