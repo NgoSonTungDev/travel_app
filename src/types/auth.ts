@@ -12,3 +12,24 @@ export interface IUser {
   isAdmin: number;
   isLock: boolean;
 }
+
+export interface ILogin {
+  email: string;
+  password: string;
+}
+export interface IVerifyEmailRegister {
+  email: string;
+  userName: string;
+}
+
+export interface IRegister {
+  codeOtp: string;
+  email: string;
+  password: string;
+  userName: string;
+}
+export interface IUpdatePassword {
+  userId: string;
+  codeOtp: string;
+  password: string;
+}

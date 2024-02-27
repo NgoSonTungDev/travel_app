@@ -21,3 +21,14 @@ export interface IErrors {
 export interface IErrorsDetail {
   [x: string]: {id: string; message: string}[];
 }
+
+export interface IResponse<T> {
+  statuscode: number;
+  message: string;
+  data: T;
+}
+
+export interface IResponseMessage {
+  statuscode: number;
+  message: string;
+}

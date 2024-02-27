@@ -1,51 +1,52 @@
-import axios, { Method } from 'axios'
+import axios, {Method} from 'axios';
 
 type Options = {
-  headers?: { [x: string]: string }
-  method: Method
-  data?: any
-  params?: any
-  signal?: AbortSignal
-}
+  headers?: {[x: string]: string};
+  method: Method;
+  data?: any;
+  params?: any;
+  signal?: AbortSignal;
+};
 
 export default class ClientBase {
-  requestHeaders: { [x: string]: string } = {}
-  urlVersion = '/api'
-  token = ''
+  requestHeaders: {[x: string]: string} = {};
+  urlVersion = '/api';
+  token = '';
 
   constructor() {}
 
   getBaseRoute = () => {
-    return `https://api.phimmoi4.com${this.urlVersion}`
-  }
+    return `http://localhost:4000${this.urlVersion}`;
+  };
 
-  setToken = (token: string) => {
-    if (token) {
-      this.token = token
-      this.requestHeaders.Authorization = `bearer ${token}`
-    } else {
-      this.token = ''
-      delete this.requestHeaders.Authorization
-    }
-  }
+  // setToken = (token: string) => {
+  //   if (token) {
+  //     this.token = token;
+  //   } else {
+  //     this.token = '';
+  //     // delete this.requestHeaders.Authorization;
+  //   }
+  // };
 
   getOptions = (options: Options) => {
-    const newOptions: Options = { ...options }
+    const newOptions: Options = {...options};
 
-    const headers: { [x: string]: string } = { ...this.requestHeaders }
+    const headers: {[x: string]: string} = {...this.requestHeaders};
 
-    return { ...newOptions, headers }
-  }
+    return {...newOptions, headers};
+  };
 
   doFetch = async <T>(url: string, options: Options): Promise<T> => {
     try {
       const response = await axios<T>(url, {
-        ...this.getOptions(options)
-      })
+        ...this.getOptions(options),
+      });
 
-      return response.data
+      return response.data;
     } catch (error: any) {
-      return Promise.reject(error.response?.data ? error.response.data : error.response)
+      return Promise.reject(
+        error.response?.data ? error.response.data : error.response,
+      );
     }
-  }
+  };
 }

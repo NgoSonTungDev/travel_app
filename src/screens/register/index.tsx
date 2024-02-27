@@ -13,6 +13,9 @@ import {DEVICE_HEIGHT} from '../../utils/dimension';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootParamList} from '../../types/navigation';
 import {useNavigation} from '@react-navigation/native';
+import {useAppDispatch} from '../../store';
+import {login, verifyEmailRegister} from '../../store/auth/auth_action';
+import axios from 'axios';
 
 const validationInput = yup.object().shape({
   userName: yup
@@ -36,9 +39,10 @@ interface IFormState {
 }
 
 const RegisterScreen = () => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<StackNavigationProp<RootParamList>>();
 
-  const {control} = useForm<IFormState>({
+  const {control, handleSubmit} = useForm<IFormState>({
     defaultValues: {
       userName: '',
       email: '',
@@ -48,8 +52,15 @@ const RegisterScreen = () => {
     resolver: yupResolver(validationInput),
   });
 
-  const navigationOtpScreen = () => {
-    navigation.navigate('OTP');
+  const onSubmit = (data: IFormState) => {
+    axios
+      .post('http://localhost:4000/api/user/login', {
+        email: 'ngosontung0309@gmail.com',
+        password: 'ngosontung0309@gmail.com',
+      })
+      .then(data => {
+        console.log(data);
+      });
   };
 
   return (
@@ -77,11 +88,13 @@ const RegisterScreen = () => {
                 control={control}
                 label="Password"
                 name="password"
+                type="password"
               />
               <FormTextInput
                 control={control}
                 label="ConfirmPassword"
                 name="confirmPassword"
+                type="password"
               />
             </View>
           </View>
@@ -97,7 +110,7 @@ const RegisterScreen = () => {
               </Text>
             </Text>
             <Button
-              onPress={navigationOtpScreen}
+              onPress={handleSubmit(onSubmit)}
               title="Continue"
               color={colors.primary}
             />

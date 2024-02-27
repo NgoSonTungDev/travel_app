@@ -1,36 +1,32 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 import {login} from './auth_action';
-import {IAuthResponse} from '../../types/auth';
 import client from '../../clients/https';
+import {IUser} from '../../types/auth';
+import {IResponse} from '../../types/request_status';
 
 interface IAuthState {
-  token: string;
+  me: IUser | null;
 }
 
 const initialState: IAuthState = {
-  token: '',
+  me: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    logoutLocal: state => {
-      state.token = '';
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(
       login.fulfilled,
-      (state, action: PayloadAction<IAuthResponse>) => {
-        state.token = action.payload.token;
-        client.setToken(action.payload.token);
+      (state, action: PayloadAction<IResponse<IUser>>) => {
+        state.me = action.payload.data;
       },
     );
   },
 });
 
 const {actions, reducer} = authSlice;
-export const {logoutLocal} = actions;
+// export const {logoutLocal} = actions;
 export default reducer;

@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
 import {Button, Image, ImageBackground, StyleSheet, View} from 'react-native';
@@ -12,6 +12,10 @@ import {DEVICE_HEIGHT} from '../../utils/dimension';
 
 const OtpScreen = () => {
   const [code, setCode] = useState();
+  const {params} = useRoute<RouteProp<RootParamList, 'OTP'>>();
+
+  console.log(params);
+
   const navigation = useNavigation<StackNavigationProp<RootParamList>>();
 
   return (
