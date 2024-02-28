@@ -1,4 +1,4 @@
-import {StackScreenProps} from '@react-navigation/stack';
+import {NavigatorScreenParams} from '@react-navigation/native';
 
 export type RootParamList = {
   Login: {
@@ -11,5 +11,9 @@ export type RootParamList = {
     password: string;
   };
   ForgotPassword: undefined;
+  Tabs: NavigatorScreenParams<TabsParamList>;
+};
+
+export type TabsParamList = {
   Home: undefined;
 };

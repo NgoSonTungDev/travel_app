@@ -69,7 +69,7 @@ const LoginScreen = () => {
     //   .catch(err => {
     //     console.log({err});
     //   });
-    navigation.navigate('Home');
+    navigation.navigate('Tabs', {screen: 'Home'});
   };
 
   return (

@@ -1,11 +1,11 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {useEffect} from 'react';
-import LoginScreen from '../screens/login';
-import RegisterScreen from '../screens/register';
+import React from 'react';
+import TopNavigation from '../components/top_navigation';
 import ForgotPasswordScreen from '../screens/forgot_password';
-import HomeScreen from '../screens/home';
+import LoginScreen from '../screens/login';
 import OtpScreen from '../screens/otp';
+import RegisterScreen from '../screens/register';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +20,7 @@ const AppNavigation = () => {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="OTP" component={OtpScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Tabs" component={TopNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
