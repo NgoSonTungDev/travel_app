@@ -51,10 +51,10 @@ const ClientAuth = <TBase extends Constructor<ClientBase>>(superclass: TBase) =>
     };
     verifyEmailForgotPassword = async (email: string) => {
       return this.doFetch<IResponse<string>>(
-        `${this.getBaseRoute()}/user/register`,
+        `${this.getBaseRoute()}/email/send-code`,
         {
           method: 'post',
-          data: email,
+          data: {email},
         },
       );
     };

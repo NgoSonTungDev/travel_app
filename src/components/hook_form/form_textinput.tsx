@@ -29,7 +29,7 @@ interface IFormTextInput<T extends FieldValues> {
   ) => void;
   onBlur?: ((e: NativeSyntheticEvent<TextInputFocusEventData>) => void) &
     ((args: any) => void);
-
+  onChange?: (text: string) => void;
   inputRef?: React.Ref<RNTextInput> | null;
 }
 

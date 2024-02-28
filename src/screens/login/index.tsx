@@ -1,5 +1,5 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {useForm} from 'react-hook-form';
@@ -15,6 +15,7 @@ import {login} from '../../store/auth/auth_action';
 import {RootParamList} from '../../types/navigation';
 import {images} from '../../utils/constants';
 import {DEVICE_HEIGHT} from '../../utils/dimension';
+import axios from 'axios';
 
 interface IFormState {
   email: string;
@@ -36,6 +37,7 @@ const validationInput = yup.object().shape({
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<StackNavigationProp<RootParamList>>();
+  const {params} = useRoute<RouteProp<RootParamList, 'Login'>>();
 
   const navigationRegisterScreen = () => {
     navigation.navigate('Register');
@@ -47,11 +49,28 @@ const LoginScreen = () => {
 
   const {control} = useForm<IFormState>({
     defaultValues: {
-      email: '',
+      email: params ? params.email : '',
       password: '',
     },
     resolver: yupResolver(validationInput),
   });
+
+  const handleLogin = () => {
+    // dispatch(
+    //   login({
+    //     email: 'sontung22@gmail.com',
+    //     password: 'sontung22@gmail.com',
+    //   }),
+    // )
+    //   .unwrap()
+    //   .then(data => {
+    //     console.log({data});
+    //   })
+    //   .catch(err => {
+    //     console.log({err});
+    //   });
+    navigation.navigate('Home');
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -97,21 +116,7 @@ const LoginScreen = () => {
               </Text>
             </Text>
             <Button
-              onPress={() => {
-                dispatch(
-                  login({
-                    email: 'sontung22@gmail.com',
-                    password: 'sontung22@gmail.com',
-                  }),
-                )
-                  .unwrap()
-                  .then(data => {
-                    console.log({data});
-                  })
-                  .catch(err => {
-                    console.log({err});
-                  });
-              }}
+              onPress={handleLogin}
               title="Login"
               color={colors.primary}
             />

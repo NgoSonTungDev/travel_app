@@ -17,6 +17,9 @@ import {useAppDispatch} from '../../store';
 import {login, verifyEmailRegister} from '../../store/auth/auth_action';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
+import {toastMessage} from '../../utils/toast';
+import {useIsRequestPending} from '../../hooks/use_status';
+import LoadingButton from '../../components/loading_button';
 
 const validationInput = yup.object().shape({
   userName: yup
@@ -42,6 +45,7 @@ interface IFormState {
 const RegisterScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<StackNavigationProp<RootParamList>>();
+  const isLoading = useIsRequestPending('auth', 'verifyEmailRegister');
 
   const {control, handleSubmit} = useForm<IFormState>({
     defaultValues: {
@@ -53,12 +57,19 @@ const RegisterScreen = () => {
     resolver: yupResolver(validationInput),
   });
 
-  const onSubmit = (data: IFormState) => {
-    dispatch(verifyEmailRegister({email: data.email, userName: data.userName}));
-    // Toast.show({
-    //   type: 'info',
-    //   text1: 'This is an info message',
-    // });
+  const onSubmit = (value: IFormState) => {
+    dispatch(
+      verifyEmailRegister({email: value.email, userName: value.userName}),
+    )
+      .unwrap()
+      .then(data => {
+        console.log(data);
+        navigation.navigate('OTP', {
+          email: value.email,
+          password: value.password,
+          userName: value.userName,
+        });
+      });
   };
 
   return (
@@ -107,10 +118,10 @@ const RegisterScreen = () => {
                 Sign in
               </Text>
             </Text>
-            <Button
-              onPress={handleSubmit(onSubmit)}
+            <LoadingButton
               title="Continue"
-              color={colors.primary}
+              callBack={handleSubmit(onSubmit)}
+              loading={isLoading}
             />
           </View>
         </View>

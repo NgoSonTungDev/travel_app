@@ -1,7 +1,14 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
-import {Button, Image, ImageBackground, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Text} from 'react-native-paper';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
@@ -9,14 +16,55 @@ import {colors} from '../../constants/colors';
 import {RootParamList} from '../../types/navigation';
 import {images} from '../../utils/constants';
 import {DEVICE_HEIGHT} from '../../utils/dimension';
+import {useAppDispatch} from '../../store';
+import {register, verifyEmailRegister} from '../../store/auth/auth_action';
+import LoadingButton from '../../components/loading_button';
+import {useIsRequestPending} from '../../hooks/use_status';
 
 const OtpScreen = () => {
-  const [code, setCode] = useState();
+  const dispatch = useAppDispatch();
   const {params} = useRoute<RouteProp<RootParamList, 'OTP'>>();
 
-  console.log(params);
+  const [code, setCode] = useState<string>('');
+  const [color, setColor] = useState<'#636e72' | '#2ecc71' | '#d63031'>(
+    '#636e72',
+  );
+
+  const isLoadingResendEmail = useIsRequestPending(
+    'auth',
+    'verifyEmailRegister',
+  );
+  const isLoadingRegister = useIsRequestPending('auth', 'register');
 
   const navigation = useNavigation<StackNavigationProp<RootParamList>>();
+
+  const resendOTP = () => {
+    dispatch(
+      verifyEmailRegister({email: params.email, userName: params.userName}),
+    );
+  };
+
+  const handleRegister = () => {
+    if (code.length < 6) return;
+    dispatch(
+      register({
+        codeOtp: code,
+        email: params.email,
+        password: params.password,
+        userName: params.userName,
+      }),
+    )
+      .unwrap()
+      .then(() => {
+        setColor('#2ecc71');
+        setTimeout(() => {
+          navigation.navigate('Login', {email: params.email});
+        }, 1000);
+      })
+      .catch(() => {
+        setColor('#d63031');
+      });
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -46,7 +94,7 @@ const OtpScreen = () => {
             <Text style={style.textTitle}>OTP Verification</Text>
             <Text style={style.textContent}>
               Enter the OTP sent to{' '}
-              <Text style={{fontWeight: 'bold'}}>ngosontung0309@gmail.com</Text>
+              <Text style={{fontWeight: 'bold'}}>{params.email}</Text>
             </Text>
             <SmoothPinCodeInput
               cellSize={35}
@@ -54,13 +102,13 @@ const OtpScreen = () => {
               placeholder={'*'}
               cellStyle={{
                 borderBottomWidth: 2,
-                borderColor: '#eeeeee',
+                borderColor: color,
               }}
               cellStyleFocused={{
                 borderColor: 'black',
               }}
               textStyle={{
-                color: '#2ecc71',
+                color: color,
               }}
               value={code}
               onTextChange={(code: any) => setCode(code)}
@@ -70,11 +118,19 @@ const OtpScreen = () => {
           <View style={{display: 'flex', flexDirection: 'column', gap: 20}}>
             <Text style={style.textContent}>
               Did't receive the Verification OTP?{' '}
-              <Text style={{color: colors.primary}} onPress={() => {}}>
-                Resend again
-              </Text>
+              {isLoadingResendEmail ? (
+                <ActivityIndicator />
+              ) : (
+                <Text style={{color: colors.primary}} onPress={resendOTP}>
+                  Resend again
+                </Text>
+              )}
             </Text>
-            <Button onPress={() => {}} title="Verify" color={colors.primary} />
+            <LoadingButton
+              title="Verify"
+              callBack={handleRegister}
+              loading={isLoadingRegister}
+            />
           </View>
         </View>
       </ImageBackground>

@@ -1,15 +1,26 @@
-import React, {ReactNode, useState} from 'react';
-import {Button, ImageBackground, StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper';
-import {DEVICE_HEIGHT} from '../../utils/dimension';
-import {colors} from '../../constants/colors';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {images} from '../../utils/constants';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {FormTextInput} from '../../components/hook_form';
-import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import React, {useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {ImageBackground, StyleSheet, View} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Text} from 'react-native-paper';
 import * as yup from 'yup';
+import {FormTextInput} from '../../components/hook_form';
+import LoadingButton from '../../components/loading_button';
+import {colors} from '../../constants/colors';
+import {useIsRequestPending} from '../../hooks/use_status';
+import {useAppDispatch} from '../../store';
+import {
+  updatePassword,
+  verifyEmailForgotPassword,
+} from '../../store/auth/auth_action';
+import {images} from '../../utils/constants';
+import {DEVICE_HEIGHT} from '../../utils/dimension';
+import {toastMessage} from '../../utils/toast';
+import {validateEmail} from '../../utils/common';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootParamList} from '../../types/navigation';
 
 type TStep = 'email' | 'verify';
 
@@ -39,9 +50,13 @@ const validationInput = yup.object().shape({
 });
 
 const ForgotPasswordScreen = () => {
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation<StackNavigationProp<RootParamList>>();
   const [step, setStep] = useState<TStep>('email');
 
-  const {control} = useForm<IFormState>({
+  const isLoading = useIsRequestPending('auth', 'verifyEmailForgotPassword');
+
+  const {control, handleSubmit, watch, setError, reset} = useForm<IFormState>({
     defaultValues: {
       email: '',
       code_otp: '',
@@ -49,7 +64,41 @@ const ForgotPasswordScreen = () => {
       confirm_password: '',
     },
     resolver: yupResolver(validationInput),
+    mode: 'all',
   });
+
+  const handleSendMail = () => {
+    const email = watch('email');
+
+    if (!email) return;
+
+    if (validateEmail(email) === null) {
+      return setError('email', {message: 'Email không hợp lệ !'});
+    }
+
+    dispatch(verifyEmailForgotPassword(email as string))
+      .unwrap()
+      .then(() => {
+        setStep('verify');
+        reset();
+        toastMessage.info('Vui lòng kiểm tra email của bạn !!!');
+      });
+  };
+
+  const handleUpdatePassword = (data: IFormState) => {
+    dispatch(
+      updatePassword({
+        codeOtp: data.code_otp,
+        password: data.new_password,
+        userId: '',
+      }),
+    )
+      .unwrap()
+      .then(() => {
+        setStep('email');
+        navigation.navigate('Login', {email: ''});
+      });
+  };
 
   const renderContent = (key: TStep) => {
     const content: {[key in TStep]: JSX.Element} = {
@@ -60,16 +109,16 @@ const ForgotPasswordScreen = () => {
       ),
       verify: (
         <View style={{marginTop: 15}}>
-          <FormTextInput control={control} label="Email" name="code_otp" />
+          <FormTextInput control={control} label="OTP" name="code_otp" />
           <FormTextInput
             control={control}
-            label="Password"
+            label="New password"
             name="new_password"
             type="password"
           />
           <FormTextInput
             control={control}
-            label="Password"
+            label="Confirm password"
             name="confirm_password"
             type="password"
           />
@@ -96,11 +145,19 @@ const ForgotPasswordScreen = () => {
             {renderContent(step)}
           </View>
           <View style={{display: 'flex', flexDirection: 'column', gap: 20}}>
-            <Button
-              onPress={() => {}}
-              title="continue"
-              color={colors.primary}
-            />
+            {step === 'email' ? (
+              <LoadingButton
+                callBack={handleSendMail}
+                loading={isLoading}
+                title="Continue"
+              />
+            ) : (
+              <LoadingButton
+                callBack={handleSubmit(handleUpdatePassword)}
+                loading={isLoading}
+                title="Verify"
+              />
+            )}
           </View>
         </View>
       </ImageBackground>

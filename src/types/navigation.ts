@@ -1,7 +1,9 @@
 import {StackScreenProps} from '@react-navigation/stack';
 
 export type RootParamList = {
-  Login: undefined;
+  Login: {
+    email: string;
+  };
   Register: undefined;
   OTP: {
     userName: string;
