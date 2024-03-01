@@ -16,4 +16,8 @@ export type RootParamList = {
 
 export type TabsParamList = {
   Home: undefined;
+  Notification: undefined;
+  Location: undefined;
+  Favourite: undefined;
+  Account: undefined;
 };

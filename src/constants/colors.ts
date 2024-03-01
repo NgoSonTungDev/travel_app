@@ -3,4 +3,5 @@ export const colors = {
   black: '#000000',
   while: '#ffffff',
   grey: '#adadad',
+  driver: '#eeeeee',
 };
