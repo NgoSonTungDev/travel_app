@@ -14,7 +14,7 @@ import {Text} from 'react-native-paper';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 import {colors} from '../../constants/colors';
 import {RootParamList} from '../../types/navigation';
-import {images} from '../../utils/constants';
+import {images} from '../../constants/images';
 import {DEVICE_HEIGHT} from '../../utils/dimension';
 import {useAppDispatch} from '../../store';
 import {register, verifyEmailRegister} from '../../store/auth/auth_action';

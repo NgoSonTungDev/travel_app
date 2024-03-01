@@ -14,7 +14,7 @@ import {
   updatePassword,
   verifyEmailForgotPassword,
 } from '../../store/auth/auth_action';
-import {images} from '../../utils/constants';
+import {images} from '../../constants/images';
 import {DEVICE_HEIGHT} from '../../utils/dimension';
 import {toastMessage} from '../../utils/toast';
 import {validateEmail} from '../../utils/common';

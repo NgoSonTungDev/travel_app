@@ -5,6 +5,7 @@ import {
   IUser,
   IVerifyEmailRegister,
 } from '../../types/auth';
+import {INotify} from '../../types/notify';
 import {IResponse, IResponseMessage} from '../../types/request_status';
 import ClientBase from './base';
 
@@ -17,7 +18,7 @@ export interface ClientAuthMix {
     data: IVerifyEmailRegister,
   ) => Promise<IResponseMessage>;
 
-  getCountry: () => Promise<any>;
+  getNotifyByUserId: (userId: string) => Promise<IResponse<INotify[]>>;
 }
 
 const ClientAuth = <TBase extends Constructor<ClientBase>>(superclass: TBase) =>
@@ -67,10 +68,13 @@ const ClientAuth = <TBase extends Constructor<ClientBase>>(superclass: TBase) =>
         },
       );
     };
-    getCountry = async () => {
-      return this.doFetch<any>(`${this.getBaseRoute()}/Country`, {
-        method: 'get',
-      });
+    getNotifyByUserId = async (userId: string) => {
+      return this.doFetch<IResponse<INotify[]>>(
+        `${this.getBaseRoute()}/notify/get-by-id/${userId}`,
+        {
+          method: 'get',
+        },
+      );
     };
   };
 

@@ -8,7 +8,7 @@ import {Text} from 'react-native-paper';
 import * as yup from 'yup';
 import {FormTextInput} from '../../components/hook_form';
 import {colors} from '../../constants/colors';
-import {images} from '../../utils/constants';
+import {images} from '../../constants/images';
 import {DEVICE_HEIGHT} from '../../utils/dimension';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootParamList} from '../../types/navigation';

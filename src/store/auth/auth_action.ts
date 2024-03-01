@@ -9,6 +9,7 @@ import {
 } from '../../types/auth';
 import client from '../../clients/https';
 import {toastMessage} from '../../utils/toast';
+import {INotify} from '../../types/notify';
 
 export const login = createAsyncThunk<IResponse<IUser>, ILogin>(
   'auth/login',
@@ -75,3 +76,17 @@ export const verifyEmailRegister = createAsyncThunk<
     return rejectWithValue(error);
   }
 });
+
+export const getNotifyByUserId = createAsyncThunk<IResponse<INotify[]>, string>(
+  'auth/getNotifyByUserId',
+  async (payload, {rejectWithValue}) => {
+    try {
+      const data = await client.getNotifyByUserId(payload);
+
+      return data;
+    } catch (error: any) {
+      toastMessage.error(error?.message || 'Lỗi hệ thống !');
+      return rejectWithValue(error);
+    }
+  },
+);

@@ -13,7 +13,7 @@ import {colors} from '../../constants/colors';
 import {useAppDispatch} from '../../store';
 import {login} from '../../store/auth/auth_action';
 import {RootParamList} from '../../types/navigation';
-import {images} from '../../utils/constants';
+import {images} from '../../constants/images';
 import {DEVICE_HEIGHT} from '../../utils/dimension';
 import axios from 'axios';
 

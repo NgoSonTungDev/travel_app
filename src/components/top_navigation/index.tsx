@@ -8,7 +8,7 @@ import HomeScreen from '../../screens/home';
 import LocationScreen from '../../screens/location';
 import NotificationScreen from '../../screens/notification';
 import {TabsParamList} from '../../types/navigation';
-import {images} from '../../utils/constants';
+import {images} from '../../constants/images';
 import {DEVICE_HEIGHT, DEVICE_WIDTH} from '../../utils/dimension';
 import AccountScreen from '../../screens/account';
 
@@ -16,38 +16,38 @@ const Tab = createMaterialTopTabNavigator<TabsParamList>();
 
 const screenList: {
   name: keyof TabsParamList;
-  component: JSX.Element;
+  component: any;
   icon: any;
   activeIcon: any;
 }[] = [
   {
     name: 'Home',
-    component: <HomeScreen />,
+    component: HomeScreen,
     icon: images.homeIcon,
     activeIcon: images.homeActiveIcon,
   },
 
   {
     name: 'Location',
-    component: <LocationScreen />,
+    component: LocationScreen,
     icon: images.locationIcon,
     activeIcon: images.locationActiveIcon,
   },
   {
     name: 'Favourite',
-    component: <FavouriteScreen />,
+    component: FavouriteScreen,
     icon: images.heartIcon,
     activeIcon: images.heartActiveIcon,
   },
   {
     name: 'Notification',
-    component: <NotificationScreen />,
+    component: NotificationScreen,
     icon: images.notificationIcon,
     activeIcon: images.notificationActiveIcon,
   },
   {
     name: 'Account',
-    component: <AccountScreen />,
+    component: AccountScreen,
     icon: images.accountIcon,
     activeIcon: images.accountActiveIcon,
   },
@@ -81,9 +81,7 @@ const TopNavigation = () => {
             <Tab.Screen
               key={item.name + index.toString()}
               name={item.name}
-              component={() => {
-                return item.component;
-              }}
+              component={item.component}
               options={{
                 tabBarActiveTintColor: colors.primary,
                 tabBarIcon: ({focused}) => {
