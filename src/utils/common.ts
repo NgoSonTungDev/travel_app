@@ -12,3 +12,10 @@ export const momentLocale = (date: string | number) => {
   moment.updateLocale('vi', {});
   return moment(date).fromNow();
 };
+
+export const formatMoney = (money: number) => {
+  return Number(money).toLocaleString('vi', {
+    style: 'currency',
+    currency: 'VND',
+  });
+};

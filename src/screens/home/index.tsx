@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 import {ActivityIndicator, Text} from 'react-native-paper';
 import CardPost from '../../components/card_post';
 import {useAppDispatch} from '../../store';
@@ -17,17 +17,33 @@ const HomeScreen = () => {
   const isLoading = useIsRequestPending('post', 'getPost');
 
   const [data, setData] = useState<IPost[]>([]);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  useEffect(() => {
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchApi();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }, []);
+
+  const fetchApi = () => {
     dispatch(getPost(initFilterPost))
       .unwrap()
       .then(data => {
         setData(data.data.data);
       });
+  };
+
+  useEffect(() => {
+    fetchApi();
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={{gap: 5}}>
         {isLoading ? (
           <ActivityIndicator />
