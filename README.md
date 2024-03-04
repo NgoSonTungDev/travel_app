@@ -6,10 +6,18 @@ This project is a travel-related application built using React Native. The goal 
 
 ### Some pictures of the project
 
-![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524393/samples/Screenshot_1709523779_cdrnts.png = 250x )
-![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524393/samples/Screenshot_1709523785_hxhveo.png = 250x )
-![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524394/samples/Screenshot_1709523892_q99nqs.png = 250x )
-![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524394/samples/Screenshot_1709524030_dhurp4.png = 250x )
-![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524393/samples/Screenshot_1709523730_llx7lg.png = 250x )
-![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524394/samples/Screenshot_1709523752_pcbmwm.png = 250x )
-![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524392/samples/Screenshot_1709523756_efkm5w.png = 250x )
+<img src="https://res.cloudinary.com/djo1gzatx/image/upload/v1709524393/samples/Screenshot_1709523779_cdrnts.png" width="200" height="400">
+<img src="https://res.cloudinary.com/djo1gzatx/image/upload/v1709524393/samples/Screenshot_1709523785_hxhveo.png" width="200" height="400">
+<img src="https://res.cloudinary.com/djo1gzatx/image/upload/v1709524394/samples/Screenshot_1709523892_q99nqs.png" width="200" height="400">
+<img src="https://res.cloudinary.com/djo1gzatx/image/upload/v1709524394/samples/Screenshot_1709524030_dhurp4.png" width="200" height="400">
+<img src="https://res.cloudinary.com/djo1gzatx/image/upload/v1709524393/samples/Screenshot_1709523730_llx7lg.png" width="200" height="400">
+<img src="https://res.cloudinary.com/djo1gzatx/image/upload/v1709524394/samples/Screenshot_1709523752_pcbmwm.png" width="200" height="400">
+<img src="https://res.cloudinary.com/djo1gzatx/image/upload/v1709524392/samples/Screenshot_1709523756_efkm5w.png" width="200" height="400">
+
+<!-- ![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524393/samples/Screenshot_1709523779_cdrnts.png | width=100 )
+![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524393/samples/Screenshot_1709523785_hxhveo.png | width=100 )
+![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524394/samples/Screenshot_1709523892_q99nqs.png | width=100 )
+![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524394/samples/Screenshot_1709524030_dhurp4.png | width=100 )
+![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524393/samples/Screenshot_1709523730_llx7lg.png | width=100 )
+![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524394/samples/Screenshot_1709523752_pcbmwm.png | width=100 )
+![image](https://res.cloudinary.com/djo1gzatx/image/upload/v1709524392/samples/Screenshot_1709523756_efkm5w.png | width=100 ) -->
