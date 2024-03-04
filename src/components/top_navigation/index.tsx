@@ -7,10 +7,12 @@ import FavouriteScreen from '../../screens/favourite';
 import HomeScreen from '../../screens/home';
 import LocationScreen from '../../screens/location';
 import NotificationScreen from '../../screens/notification';
-import {TabsParamList} from '../../types/navigation';
+import {RootParamList, TabsParamList} from '../../types/navigation';
 import {images} from '../../constants/images';
 import {DEVICE_HEIGHT, DEVICE_WIDTH} from '../../utils/dimension';
 import AccountScreen from '../../screens/account';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 const Tab = createMaterialTopTabNavigator<TabsParamList>();
 
@@ -54,7 +56,10 @@ const screenList: {
 ];
 
 const TopNavigation = () => {
+  const navigation = useNavigation<StackNavigationProp<RootParamList>>();
+
   const sizeIcon = 18;
+
   return (
     <React.Fragment>
       <View style={style.root}>
@@ -68,7 +73,7 @@ const TopNavigation = () => {
           )}
           size={15}
           mode="outlined"
-          onPress={() => console.log('Pressed')}
+          onPress={() => navigation.navigate('Search')}
         />
       </View>
       <Tab.Navigator

@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {colors} from '../../constants/colors';
 
 interface EmptyMessageProps {
   title?: string;

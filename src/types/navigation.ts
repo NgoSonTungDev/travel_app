@@ -11,6 +11,7 @@ export type RootParamList = {
     password: string;
   };
   ForgotPassword: undefined;
+  Search: undefined;
   Tabs: NavigatorScreenParams<TabsParamList>;
 };
 

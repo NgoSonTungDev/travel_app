@@ -3,6 +3,6 @@ export const colors = {
   black: '#000000',
   while: '#ffffff',
   grey: '#adadad',
-  driver: '#eeeeee',
+  driver: '#b2bec3',
   error: '#d63031',
 };

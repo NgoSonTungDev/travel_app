@@ -2,9 +2,9 @@ import {isEmpty} from 'lodash';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
-import {ActivityIndicator} from 'react-native-paper';
 import CardPlace from '../../components/card_place';
 import EmptyMessage from '../../components/empty_message';
+import Loading from '../../components/loading';
 import {initFilterPlace} from '../../constants/common';
 import {useIsRequestPending} from '../../hooks/use_status';
 import {useAppDispatch} from '../../store';
@@ -46,7 +46,7 @@ const LocationScreen = () => {
       }>
       <View style={{gap: 5}}>
         {isLoading && !refreshing ? (
-          <ActivityIndicator />
+          <Loading />
         ) : isEmpty(data) ? (
           <EmptyMessage />
         ) : (

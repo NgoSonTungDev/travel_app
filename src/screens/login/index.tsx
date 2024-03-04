@@ -10,12 +10,10 @@ import {Text} from 'react-native-paper';
 import * as yup from 'yup';
 import {FormTextInput} from '../../components/hook_form';
 import {colors} from '../../constants/colors';
-import {useAppDispatch} from '../../store';
-import {login} from '../../store/auth/auth_action';
-import {RootParamList} from '../../types/navigation';
 import {images} from '../../constants/images';
+import {useAppDispatch} from '../../store';
+import {RootParamList} from '../../types/navigation';
 import {DEVICE_HEIGHT} from '../../utils/dimension';
-import axios from 'axios';
 
 interface IFormState {
   email: string;

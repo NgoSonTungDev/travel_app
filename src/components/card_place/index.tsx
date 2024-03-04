@@ -1,13 +1,13 @@
 import moment from 'moment';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Rating} from 'react-native-ratings';
 import {colors} from '../../constants/colors';
+import {images} from '../../constants/images';
+import {IPlace} from '../../types/place';
 import {formatMoney} from '../../utils/common';
 import {DEVICE_WIDTH} from '../../utils/dimension';
-import {images} from '../../constants/images';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {IFavoritePlace, IPlace} from '../../types/place';
 
 interface IProps {
   type: 'place' | 'favorite';
@@ -46,7 +46,7 @@ const CardPlace = ({type, item, callBack}: IProps) => {
             imageSize={13}
             startingValue={item.rating}
           />
-          <Text>({item.rating})</Text>
+          <Text>({item.rating.toFixed(1)})</Text>
         </View>
         <View style={style.box}>
           <Text>Khoảng giá:</Text>
