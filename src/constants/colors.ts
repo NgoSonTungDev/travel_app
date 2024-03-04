@@ -4,4 +4,5 @@ export const colors = {
   while: '#ffffff',
   grey: '#adadad',
   driver: '#eeeeee',
+  error: '#d63031',
 };

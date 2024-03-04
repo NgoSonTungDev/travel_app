@@ -1,15 +1,15 @@
+import {isEmpty} from 'lodash';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
-import {ActivityIndicator, Text} from 'react-native-paper';
 import CardPost from '../../components/card_post';
-import {useAppDispatch} from '../../store';
+import EmptyMessage from '../../components/empty_message';
+import Loading from '../../components/loading';
 import {initFilterPost} from '../../constants/common';
+import {useIsRequestPending} from '../../hooks/use_status';
+import {useAppDispatch} from '../../store';
 import {getPost} from '../../store/post/post_action';
 import {IPost} from '../../types/post';
-import {useIsRequestPending} from '../../hooks/use_status';
-import {isEmpty} from 'lodash';
-import EmptyMessage from '../../components/empty_message';
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
@@ -45,8 +45,8 @@ const HomeScreen = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View style={{gap: 5}}>
-        {isLoading ? (
-          <ActivityIndicator />
+        {isLoading && !refreshing ? (
+          <Loading />
         ) : isEmpty(data) ? (
           <EmptyMessage />
         ) : (

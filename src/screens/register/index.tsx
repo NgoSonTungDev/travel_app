@@ -1,7 +1,13 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {Button, ImageBackground, StyleSheet, View} from 'react-native';
+import {
+  Button,
+  ImageBackground,
+  Keyboard,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Text} from 'react-native-paper';
@@ -58,6 +64,7 @@ const RegisterScreen = () => {
   });
 
   const onSubmit = (value: IFormState) => {
+    Keyboard.dismiss();
     dispatch(
       verifyEmailRegister({email: value.email, userName: value.userName}),
     )

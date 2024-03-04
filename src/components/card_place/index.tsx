@@ -7,15 +7,15 @@ import {formatMoney} from '../../utils/common';
 import {DEVICE_WIDTH} from '../../utils/dimension';
 import {images} from '../../constants/images';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {IPlace} from '../../types/place';
+import {IFavoritePlace, IPlace} from '../../types/place';
 
-const CardPlace = ({
-  type,
-  item,
-}: {
+interface IProps {
   type: 'place' | 'favorite';
   item: IPlace;
-}) => {
+  callBack?: () => void;
+}
+
+const CardPlace = ({type, item, callBack}: IProps) => {
   const renderItemCheckTime = (open: number, close: number) => {
     const start = moment(open).format('HH:mm');
     const end = moment(close).format('HH:mm');
@@ -70,13 +70,18 @@ const CardPlace = ({
           <Text>{renderItemCheckTime(item.openTime, item.closeTime)}</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity
+        onPress={() => {
+          if (callBack) {
+            callBack();
+          }
+        }}>
         <Image
-          source={images.heartIcon}
+          source={type === 'place' ? images.heartIcon : images.trashIcon}
           style={{
             width: 20,
             height: 20,
-            tintColor: colors.primary,
+            tintColor: type === 'place' ? colors.primary : colors.error,
             position: 'absolute',
             right: 5,
             bottom: 90,

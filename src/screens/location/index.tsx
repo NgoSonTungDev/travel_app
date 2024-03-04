@@ -45,7 +45,7 @@ const LocationScreen = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View style={{gap: 5}}>
-        {isLoading ? (
+        {isLoading && !refreshing ? (
           <ActivityIndicator />
         ) : isEmpty(data) ? (
           <EmptyMessage />

@@ -1,7 +1,7 @@
 import {IResponse} from './request_status';
 
 export interface IPlace {
-  _id?: string;
+  _id: string;
   name: string;
   location: string;
   address: string;
@@ -28,7 +28,7 @@ export interface IFilterPlace {
   variability: string;
 }
 export interface IFavoritePlace {
-  _id?: string;
+  _id: string;
   placeId: IPlace;
   userId: string;
   createdAt: string;

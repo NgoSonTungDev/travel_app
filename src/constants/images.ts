@@ -19,4 +19,5 @@ export const images = {
   likeActiveIcon: require('../assets/icons/like_icon_active.png'),
   shareIcon: require('../assets/icons/share_icon.png'),
   commentIcon: require('../assets/icons/comment_icon.png'),
+  trashIcon: require('../assets/icons/trash_icon.png'),
 };

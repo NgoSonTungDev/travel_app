@@ -3,13 +3,12 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 import {ActivityIndicator} from 'react-native-paper';
-import CardPost from '../../components/card_post';
+import CardPlace from '../../components/card_place';
 import EmptyMessage from '../../components/empty_message';
 import {useIsRequestPending} from '../../hooks/use_status';
 import {useAppDispatch} from '../../store';
-import {getListFavorite} from '../../store/place/place_action';
-import {IFavoritePlace, IPlace} from '../../types/place';
-import CardPlace from '../../components/card_place';
+import {deleteFavorite, getListFavorite} from '../../store/place/place_action';
+import {IFavoritePlace} from '../../types/place';
 
 const FavouriteScreen = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +34,11 @@ const FavouriteScreen = () => {
       });
   };
 
+  const handleRemoveFavoritesList = (favouriteId: string) => {
+    dispatch(deleteFavorite(favouriteId));
+    setData(prev => prev.filter(e => e._id !== favouriteId));
+  };
+
   useEffect(() => {
     fetchApi();
   }, []);
@@ -45,14 +49,21 @@ const FavouriteScreen = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View style={{gap: 5}}>
-        {isLoading ? (
+        {isLoading && !refreshing ? (
           <ActivityIndicator />
         ) : isEmpty(data) ? (
           <EmptyMessage />
         ) : (
           data.map(item => {
             return (
-              <CardPlace key={item._id} item={item.placeId} type="favorite" />
+              <CardPlace
+                key={item._id}
+                item={item.placeId}
+                type="favorite"
+                callBack={() => {
+                  handleRemoveFavoritesList(item._id);
+                }}
+              />
             );
           })
         )}

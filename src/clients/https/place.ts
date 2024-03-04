@@ -4,12 +4,13 @@ import {
   IPlace,
   IResponsePlace,
 } from '../../types/place';
-import {IResponse} from '../../types/request_status';
+import {IResponse, IResponseMessage} from '../../types/request_status';
 import ClientBase from './base';
 
 export interface ClientPlaceMix {
   getPlaces: (data: IFilterPlace) => Promise<IResponsePlace>;
   getListFavorite: (userId: string) => Promise<IResponse<IFavoritePlace[]>>;
+  deleteFavorite: (favouriteId: string) => Promise<IResponseMessage>;
 }
 
 const ClientPlace = <TBase extends Constructor<ClientBase>>(
@@ -27,6 +28,14 @@ const ClientPlace = <TBase extends Constructor<ClientBase>>(
         `${this.getBaseRoute()}/favourite/get-by-id/${userId}`,
         {
           method: 'get',
+        },
+      );
+    };
+    deleteFavorite = async (favouriteId: string) => {
+      return this.doFetch<IResponse<IFavoritePlace[]>>(
+        `${this.getBaseRoute()}/favourite/delete/${favouriteId}`,
+        {
+          method: 'delete',
         },
       );
     };

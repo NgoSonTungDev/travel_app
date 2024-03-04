@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import client from '../../clients/https';
 import {IFavoritePlace, IFilterPlace, IResponsePlace} from '../../types/place';
-import {IResponse} from '../../types/request_status';
+import {IResponse, IResponseMessage} from '../../types/request_status';
 import {toastMessage} from '../../utils/toast';
 
 export const getPlaces = createAsyncThunk<IResponsePlace, IFilterPlace>(
@@ -29,3 +29,16 @@ export const getListFavorite = createAsyncThunk<
     return rejectWithValue(error);
   }
 });
+
+export const deleteFavorite = createAsyncThunk<IResponseMessage, string>(
+  'place/deleteFavorite',
+  async (payload, {rejectWithValue}) => {
+    try {
+      const data = await client.deleteFavorite(payload);
+      return data;
+    } catch (error: any) {
+      toastMessage.error(error?.message || 'Lỗi hệ thống !');
+      return rejectWithValue(error);
+    }
+  },
+);

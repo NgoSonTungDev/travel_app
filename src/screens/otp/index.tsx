@@ -6,6 +6,7 @@ import {
   Button,
   Image,
   ImageBackground,
+  Keyboard,
   StyleSheet,
   View,
 } from 'react-native';
@@ -39,6 +40,7 @@ const OtpScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootParamList>>();
 
   const resendOTP = () => {
+    Keyboard.dismiss();
     dispatch(
       verifyEmailRegister({email: params.email, userName: params.userName}),
     );
@@ -46,6 +48,7 @@ const OtpScreen = () => {
 
   const handleRegister = () => {
     if (code.length < 6) return;
+    Keyboard.dismiss();
     dispatch(
       register({
         codeOtp: code,
