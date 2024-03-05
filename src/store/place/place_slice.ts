@@ -1,8 +1,14 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
-import {IFilterPlace, IPlace, IResponsePlace} from '../../types/place';
-import {getPlaces} from './place_action';
 import {initFilterPlace} from '../../constants/common';
+import {
+  IFilterPlace,
+  IPlace,
+  IPurposeType,
+  IResponsePlace,
+} from '../../types/place';
+import {IResponse} from '../../types/request_status';
+import {getPlaces, getPurposes, getTypes} from './place_action';
 
 interface IPlaceState {
   data: {
@@ -11,6 +17,8 @@ interface IPlaceState {
     data: IPlace[];
   };
   filter: IFilterPlace;
+  purposes: IPurposeType[];
+  types: IPurposeType[];
 }
 
 const initialState: IPlaceState = {
@@ -20,6 +28,8 @@ const initialState: IPlaceState = {
     totalPage: 0,
   },
   filter: initFilterPlace,
+  purposes: [],
+  types: [],
 };
 
 const placeSlice = createSlice({
@@ -32,6 +42,9 @@ const placeSlice = createSlice({
     refreshData: state => {
       state.data = initialState.data;
     },
+    refreshFilter: state => {
+      state.filter = initialState.filter;
+    },
   },
   extraReducers: builder => {
     builder.addCase(
@@ -40,9 +53,21 @@ const placeSlice = createSlice({
         state.data = action.payload.data;
       },
     );
+    builder.addCase(
+      getTypes.fulfilled,
+      (state, action: PayloadAction<IResponse<IPurposeType[]>>) => {
+        state.types = action.payload.data;
+      },
+    );
+    builder.addCase(
+      getPurposes.fulfilled,
+      (state, action: PayloadAction<IResponse<IPurposeType[]>>) => {
+        state.purposes = action.payload.data;
+      },
+    );
   },
 });
 
 const {actions, reducer} = placeSlice;
-export const {changeFilter, refreshData} = actions;
+export const {changeFilter, refreshData, refreshFilter} = actions;
 export default reducer;

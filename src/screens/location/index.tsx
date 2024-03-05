@@ -10,6 +10,7 @@ import {useIsRequestPending} from '../../hooks/use_status';
 import {useAppDispatch} from '../../store';
 import {getPlaces} from '../../store/place/place_action';
 import {IPlace} from '../../types/place';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const LocationScreen = () => {
   const dispatch = useAppDispatch();
@@ -44,7 +45,7 @@ const LocationScreen = () => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <View style={{gap: 5}}>
+      <SafeAreaView style={{gap: 5}}>
         {isLoading && !refreshing ? (
           <Loading />
         ) : isEmpty(data) ? (
@@ -54,7 +55,7 @@ const LocationScreen = () => {
             return <CardPlace key={item._id} type="place" item={item} />;
           })
         )}
-      </View>
+      </SafeAreaView>
     </ScrollView>
   );
 };

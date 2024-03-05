@@ -1,26 +1,39 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {isEmpty} from 'lodash';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Keyboard, StyleSheet, View} from 'react-native';
-import {
-  RefreshControl,
-  ScrollView,
-  TextInput,
-} from 'react-native-gesture-handler';
+import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import Icons from 'react-native-vector-icons/AntDesign';
 import CardPlace from '../../components/card_place';
 import EmptyMessage from '../../components/empty_message';
 import Loading from '../../components/loading';
 import {colors} from '../../constants/colors';
-import {initFilterPlace} from '../../constants/common';
+import {useDelayTimeout} from '../../hooks/use_delay';
 import {useIsRequestPending} from '../../hooks/use_status';
 import {useAppDispatch, useAppSelector} from '../../store';
-import {getPlaces} from '../../store/place/place_action';
+import {getPlaces, getPurposes, getTypes} from '../../store/place/place_action';
+import {
+  changeFilter,
+  refreshData,
+  refreshFilter,
+} from '../../store/place/place_slice';
 import {RootParamList} from '../../types/navigation';
-import {IFilterPlace, IPlace} from '../../types/place';
-import {useDelayTimeout} from '../../hooks/use_delay';
-import {changeFilter, refreshData} from '../../store/place/place_slice';
+import {IPurposeType} from '../../types/place';
+import {useForm} from 'react-hook-form';
+import {provinces} from '../../assets/data/provinces';
+import {Text} from 'react-native-paper';
+
+interface ISelect {
+  id: string;
+  name: string;
+}
+
+interface IFormState {
+  location: string;
+  purpose: string;
+  type: string;
+}
 
 const SearchScreen = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +41,17 @@ const SearchScreen = () => {
   const isLoading = useIsRequestPending('place', 'getPlaces');
   const delay = useDelayTimeout();
 
-  const {data, filter} = useAppSelector(state => state.placeSlice);
+  const {control} = useForm<IFormState>({
+    defaultValues: {
+      location: '',
+      purpose: '',
+      type: '',
+    },
+  });
+
+  const {data, filter, purposes, types} = useAppSelector(
+    state => state.placeSlice,
+  );
 
   const handleSearch = (search: string) => {
     if (search) {
@@ -39,15 +62,28 @@ const SearchScreen = () => {
     });
   };
 
+  const convertData = (data: IPurposeType[]): ISelect[] => {
+    const dataSelect = data.map(e => {
+      return {id: e.name, name: e.name};
+    });
+
+    return dataSelect;
+  };
+
   const fetchApi = () => {
     dispatch(getPlaces(filter));
   };
+
+  useEffect(() => {
+    Promise.all([dispatch(getPurposes()), dispatch(getTypes())]);
+  }, []);
 
   useEffect(() => {
     fetchApi();
 
     return () => {
       dispatch(refreshData());
+      dispatch(refreshFilter());
     };
   }, [filter]);
 
@@ -69,6 +105,7 @@ const SearchScreen = () => {
           placeholder="Search"
         />
       </View>
+
       <ScrollView style={styles.body}>
         <View style={{gap: 5}}>
           {isLoading ? (

@@ -9,6 +9,7 @@ import {useIsRequestPending} from '../../hooks/use_status';
 import {useAppDispatch} from '../../store';
 import {deleteFavorite, getListFavorite} from '../../store/place/place_action';
 import {IFavoritePlace} from '../../types/place';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const FavouriteScreen = () => {
   const dispatch = useAppDispatch();
@@ -48,7 +49,7 @@ const FavouriteScreen = () => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <View style={{gap: 5}}>
+      <SafeAreaView style={{gap: 5}}>
         {isLoading && !refreshing ? (
           <ActivityIndicator />
         ) : isEmpty(data) ? (
@@ -67,7 +68,7 @@ const FavouriteScreen = () => {
             );
           })
         )}
-      </View>
+      </SafeAreaView>
     </ScrollView>
   );
 };

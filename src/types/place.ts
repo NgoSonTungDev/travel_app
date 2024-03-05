@@ -37,3 +37,8 @@ export interface IFavoritePlace {
 
 export interface IResponsePlace
   extends IResponse<{total: number; totalPage: number; data: IPlace[]}> {}
+
+export interface IPurposeType {
+  _id?: string;
+  name: string;
+}

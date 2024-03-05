@@ -1,13 +1,15 @@
 import {
   IFavoritePlace,
   IFilterPlace,
-  IPlace,
+  IPurposeType,
   IResponsePlace,
 } from '../../types/place';
 import {IResponse, IResponseMessage} from '../../types/request_status';
 import ClientBase from './base';
 
 export interface ClientPlaceMix {
+  getTypes: () => Promise<IResponse<IPurposeType[]>>;
+  getPurposes: () => Promise<IResponse<IPurposeType[]>>;
   getPlaces: (data: IFilterPlace) => Promise<IResponsePlace>;
   getListFavorite: (userId: string) => Promise<IResponse<IFavoritePlace[]>>;
   deleteFavorite: (favouriteId: string) => Promise<IResponseMessage>;
@@ -17,6 +19,22 @@ const ClientPlace = <TBase extends Constructor<ClientBase>>(
   superclass: TBase,
 ) =>
   class extends superclass implements ClientPlaceMix {
+    getPurposes = async () => {
+      return this.doFetch<IResponse<IPurposeType[]>>(
+        `${this.getBaseRoute()}/purpose/all`,
+        {
+          method: 'get',
+        },
+      );
+    };
+    getTypes = async () => {
+      return this.doFetch<IResponse<IPurposeType[]>>(
+        `${this.getBaseRoute()}/type/all`,
+        {
+          method: 'get',
+        },
+      );
+    };
     getPlaces = async (data: IFilterPlace) => {
       return this.doFetch<IResponsePlace>(`${this.getBaseRoute()}/place/all`, {
         method: 'get',

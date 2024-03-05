@@ -4,11 +4,13 @@ import {
   IPost,
   IResponsePost,
 } from '../../types/post';
+import {IResponse} from '../../types/request_status';
 import ClientBase from './base';
 
 export interface ClientPostMix {
   addPost: (data: IFormAddPost) => Promise<IPost>;
   getPost: (data: IFilterPost) => Promise<IResponsePost>;
+  getPostByUserId: (userId: string) => Promise<IResponse<IPost[]>>;
 }
 
 const ClientPost = <TBase extends Constructor<ClientBase>>(superclass: TBase) =>
@@ -24,6 +26,14 @@ const ClientPost = <TBase extends Constructor<ClientBase>>(superclass: TBase) =>
         method: 'get',
         params: data,
       });
+    };
+    getPostByUserId = async (userId: string) => {
+      return this.doFetch<IResponse<IPost[]>>(
+        `${this.getBaseRoute()}/post/get-id-user/${userId}`,
+        {
+          method: 'get',
+        },
+      );
     };
   };
 

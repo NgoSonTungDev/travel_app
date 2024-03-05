@@ -10,6 +10,7 @@ import {useIsRequestPending} from '../../hooks/use_status';
 import {useAppDispatch} from '../../store';
 import {getPost} from '../../store/post/post_action';
 import {IPost} from '../../types/post';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
@@ -44,7 +45,7 @@ const HomeScreen = () => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <View style={{gap: 5}}>
+      <SafeAreaView style={{gap: 5}}>
         {isLoading && !refreshing ? (
           <Loading />
         ) : isEmpty(data) ? (
@@ -54,7 +55,7 @@ const HomeScreen = () => {
             return <CardPost key={item._id} item={item} />;
           })
         )}
-      </View>
+      </SafeAreaView>
     </ScrollView>
   );
 };

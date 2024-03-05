@@ -22,3 +22,8 @@ export type TabsParamList = {
   Favourite: undefined;
   Account: undefined;
 };
+
+export type TabsHomeScreen = {
+  Post: undefined;
+  Info: undefined;
+};
